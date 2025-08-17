@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WinTils • Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="app">
+    <!-- LEFT NAV -->
+    <aside class="sidenav" role="navigation" aria-label="Primary">
+      <div class="sidenav-head">
+        <a class="brand brand-center" href="#" title="WinTils Home">
+          <span class="logo-grid" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </span>
+          <span class="brand-name">WinTils</span>
+        </a>
+        <div class="search-wrap pad-top-10">
+          <input id="search" type="text" placeholder="Search…" aria-label="Global search">
+          <button id="search-clear" class="search-clear" aria-label="Clear search">×</button>
+        </div>
+      </div>
+
+      <nav class="sidenav-links" id="left-nav">
+        <button class="nl active" data-panel="overview"><span>Dashboard</span></button>
+        <button class="nl" data-panel="backup"><span>Backup</span></button>
+        <button class="nl" data-panel="personalization"><span>Personalization</span></button>
+        <button class="nl" data-panel="optimize"><span>Optimization</span></button>
+        <button class="nl" data-panel="privacy"><span>Privacy</span></button>
+        <button class="nl" data-panel="system"><span>System</span></button>
+        <button class="nl" data-panel="settings"><span>Settings</span></button>
+      </nav>
+
+      <div class="sidenav-foot">
+        <button class="btn btn-ghost small" data-action="export-profile">Export</button>
+        <button class="btn btn-ghost small" data-action="import-profile">Import</button>
+        <input id="profile-file" type="file" accept=".json" hidden>
+      </div>
+    </aside>
+
+    <!-- MAIN + RIGHT LOG RAIL -->
+    <div class="layout">
+      <main class="main" role="main">
+        <div class="wrap">
+
+          <!-- DASHBOARD -->
+          <section class="panel active" id="panel-overview" data-category="Dashboard">
+            <div class="grid-cards">
+
+              <!-- Ongoing tasks -->
+              <div class="card table span-12">
+                <div class="card-h">
+                  <h3>Ongoing Tasks</h3>
+                  <button class="link uline small" data-action="view-all-tasks">View All</button>
+                </div>
+                <div class="thead">
+                  <span>Task</span><span>Status</span><span>Scheduled</span><span>Owner</span><span>Progress</span>
+                </div>
+                <div class="tbody" id="tasks-body"></div>
+              </div>
+
+              <!-- Create Backup (opens Backup panel) -->
+              <div class="card span-4">
+                <div class="card-h tight">
+                  <h4>Create Backup</h4>
+                  <span class="pill ok">Safety</span>
+                </div>
+                <p class="muted tiny">System restore point & configs</p>
+                <div class="actions left">
+                  <button class="btn btn-primary" data-action="open-backup">Open</button>
+                </div>
+              </div>
+
+              <!-- Safe Personalization -->
+              <div class="card span-4">
+                <div class="card-h tight">
+                  <h4>Safe Personalization</h4>
+                  <span class="pill warn">Preview</span>
+                </div>
+                <p class="muted tiny">Application Add/Remove</p>
+                <div class="actions left">
+                  <button class="btn btn-ghost" data-nav="personalization">Open</button>
+                </div>
+              </div>
+
+              <!-- Shortcut to Profiles -->
+              <div class="card span-4">
+                <div class="card-h tight">
+                  <h4>Shortcut to Profiles</h4>
+                  <span class="pill">Preset</span>
+                </div>
+                <p class="muted tiny">Active: <span id="dash-active-profile">Default Profile</span></p>
+                <div class="actions left">
+                  <button class="btn btn-ghost" data-nav="settings">Open</button>
+                </div>
+              </div>
+
+              <!-- System overview -->
+              <div class="card metric span-6">
+                <div class="card-h">
+                  <h3>System Overview</h3>
+                  <span class="badge good">Healthy</span>
+                </div>
+                <div class="metrics">
+                  <div><span class="k">CPU idle</span><span class="v" id="m-cpu">–</span></div>
+                  <div><span class="k">RAM free</span><span class="v" id="m-ram">–</span></div>
+                  <div><span class="k">Disk free</span><span class="v" id="m-disk">–</span></div>
+                  <div><span class="k">Startup apps</span><span class="v" id="m-startup">–</span></div>
+                  <div><span class="k">Processes</span><span class="v" id="m-proc">–</span></div>
+                  <div><span class="k">GPU usage</span><span class="v" id="m-gpu">–</span></div>
+                </div>
+              </div>
+
+              <!-- Safety checks -->
+              <div class="card span-6">
+                <div class="card-h"><h3>Safety Checks</h3></div>
+                <div class="list checks" id="safety-checks"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- BACKUP -->
+          <section class="panel" id="panel-backup" data-category="Backup">
+            <div class="grid-cards">
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Backup</h3></div>
+                <div class="stack v">
+                  <button class="btn btn-primary" data-action="create-restore-point">Create Restore Point</button>
+                  <button class="btn btn-ghost" data-action="snapshot-config">Snapshot Configuration</button>
+                  <button class="btn btn-ghost" data-action="export-reg">Export Registry Keys</button>
+                  <button class="btn btn-ghost" data-action="export-policies">Export Policies</button>
+                  <div class="split one-line ordered">
+                    <button class="btn btn-ghost" data-action="boot-backup">Boot Loader Backup</button>
+                    <code class="muted tiny">bcdedit /export BCD.bkp</code>
+                  </div>
+                </div>
+                <div class="actions left stick-bottom">
+                  <button class="btn btn-primary" data-action="apply-backup">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Restore</h3></div>
+                <div class="stack v">
+                  <button class="btn btn-ghost" data-action="open-system-restore">Open System Restore</button>
+                  <button class="btn btn-ghost" data-action="import-reg">Import Registry Keys</button>
+                  <button class="btn btn-ghost" data-action="import-policies">Import Policies</button>
+                  <div class="split one-line ordered">
+                    <button class="btn btn-ghost" data-action="boot-restore">Boot Loader Restore</button>
+                    <code class="muted tiny">bcdedit /import BCD.bkp</code>
+                  </div>
+                  <input id="restore-file" type="file" hidden>
+                </div>
+                <div class="actions left stick-bottom">
+                  <button class="btn btn-primary" data-action="apply-restore">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-12 card-stick">
+                <div class="card-h"><h3>Custom Reinstall Backup</h3></div>
+                <div class="stack v">
+                  <div class="grid two">
+                    <label class="tline"><input type="checkbox" class="toggle" data-backup="pictures" checked><span>Pictures</span></label>
+                    <label class="tline"><input type="checkbox" class="toggle" data-backup="videos" checked><span>Videos</span></label>
+                    <label class="tline"><input type="checkbox" class="toggle" data-backup="desktop" checked><span>Desktop</span></label>
+                    <label class="tline"><input type="checkbox" class="toggle" data-backup="apps" checked><span>Apps list (winget)</span></label>
+                  </div>
+
+                  <div class="path-row">
+                    <span class="path-label">Output folder:</span>
+                    <input type="text" id="backup-path" class="path-input" placeholder="D:\WinTils-Backup">
+                    <button class="btn btn-ghost" data-action="browse-backup">Browse</button>
+                  </div>
+
+                  <div class="path-output" id="backup-output">Output: —</div>
+                </div>
+                <div class="actions left stick-bottom">
+                  <button class="btn btn-primary" data-action="run-custom-backup">Run Backup</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PERSONALIZATION -->
+          <section class="panel" id="panel-personalization" data-category="Personalization">
+            <div class="grid-cards">
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>App Removal</h3></div>
+                <div class="apps-compact" id="app-removal"></div>
+                <div class="actions left stick-bottom">
+                  <button class="btn btn-primary" data-action="remove-selected">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>App Installation</h3></div>
+
+                <!-- Category tabs -->
+                <div class="tabs" id="app-tabs" role="tablist">
+                  <button class="tab active" data-tab="browser" role="tab" aria-selected="true">Browser</button>
+                  <button class="tab" data-tab="archive" role="tab" aria-selected="false">Archive</button>
+                  <button class="tab" data-tab="editor" role="tab" aria-selected="false">Text Editor</button>
+                  <button class="tab" data-tab="alt" role="tab" aria-selected="false">Windows Apps alternatives</button>
+                  <button class="tab" data-tab="tools" role="tab" aria-selected="false">Additional Tools</button>
+                </div>
+
+                <!-- Category containers -->
+                <div class="apps-compact cat active" id="apps-browser"></div>
+                <div class="apps-compact cat" id="apps-archive"></div>
+                <div class="apps-compact cat" id="apps-editor"></div>
+                <div class="apps-compact cat" id="apps-alt"></div>
+
+                <!-- Additional Tools with guides and links -->
+                <div class="apps-compact cat" id="apps-tools">
+                  <details class="expander">
+                    <summary class="guide-header">
+                      NVCleanstall Guide • <a href="#" data-open-guide="nvclean">see guide</a>
+                    </summary>
+                    <div class="expander-body">
+                      <ol class="muted tiny">
+                        <li>Next</li>
+                        <li>Recommended</li>
+                        <li>Disable Installer Telemetry & Advertising</li>
+                        <li>Unattended Express Install</li>
+                        <li>Perform a Clean Install</li>
+                      </ol>
+                      <p class="muted tiny">Download: <a href="https://www.techpowerup.com/download/techpowerup-nvcleanstall/" target="_blank" rel="noopener">TechPowerUp NVCleanstall</a></p>
+                    </div>
+                  </details>
+                  <div class="links muted tiny">
+                    <p>VCRedist (all‑in‑one): <a href="https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/" target="_blank" rel="noopener">link</a></p>
+                    <p>DirectX End‑User Runtime: <a href="https://www.microsoft.com/en-us/download/details.aspx?id=35" target="_blank" rel="noopener">link</a></p>
+                    <p>Revo Uninstaller: <a href="https://www.revouninstaller.com/revo-uninstaller-free-download/" target="_blank" rel="noopener">link</a></p>
+                    <p>PortMaster (Advanced): <a href="https://safing.io/" target="_blank" rel="noopener">link</a></p>
+                  </div>
+                </div>
+
+                <div class="actions left stick-bottom">
+                  <button class="btn btn-primary" data-action="install-selected">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-12 card-stick">
+                <div class="card-h"><h3>File & UX</h3></div>
+                <div class="stack v">
+                  <!-- All disabled by default -->
+                  <label class="tline"><input type="checkbox" class="toggle" data-per="show-extensions"><span>Show file extensions</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-per="show-hidden"><span>Show hidden files</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-per="classic-context"><span>Classic context menus</span></label>
+                </div>
+                <div class="actions left stick-bottom">
+                  <button class="btn btn-primary" data-action="apply-personalization">Apply</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- OPTIMIZATION -->
+          <section class="panel" id="panel-optimize" data-category="Optimization">
+            <div class="grid-cards">
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Power & System</h3></div>
+                <div class="stack v">
+                  <!-- All disabled by default except SysMain -->
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="windowed-optimizations"><span>Windowed optimizations</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="full-screen-opt"><span>Full screen optimization</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="disable-animations"><span>Disable animations</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="disable-delivery"><span>Disable Delivery Optimization</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="disable-hibernation"><span>Disable hibernation</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="sysmain-toggle" checked><span>Toggle SysMain (Superfetch)</span></label>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-optimizations">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Networking & Advanced</h3></div>
+                <div class="stack v">
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="disable-ipv6"><span>Disable IPv6 <span class="badge adv red">Advanced</span></span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-opt="disable-teredo"><span>Disable Teredo <span class="badge adv red">Advanced</span></span></label>
+
+                  <!-- Memory Compression: tag after text + caret on right -->
+                  <div class="tline expandable" data-expander="memcomp">
+                    <div class="exp-left">
+                      <input type="checkbox" class="toggle" data-opt="memory-compression">
+                      <span>Memory Compression <span class="badge adv red">Advanced</span></span>
+                    </div>
+                    <button class="caret" type="button" aria-expanded="false" aria-controls="memcomp-desc" data-expand="memcomp">›</button>
+                  </div>
+                  <div id="memcomp-desc" class="expander-body">
+                    <p class="muted tiny">Save memory by compressing unused programs running in the background. Might have a small impact on CPU.</p>
+                  </div>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-optimizations">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-12 card-stick">
+                <div class="card-h"><h3>Adobe Debloat <span class="badge adv red">Advanced</span></h3></div>
+                <div class="stack v">
+                  <p class="muted tiny">Disable background Adobe services, updaters, and telemetry entries (safe defaults).</p>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-ghost" data-action="adobe-debloat">Run Debloat</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PRIVACY -->
+          <section class="panel" id="panel-privacy" data-category="Privacy">
+            <div class="grid-cards">
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Limit Telemetry</h3></div>
+                <div class="stack v spaced">
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="limit-telemetry"><span>Limit telemetry and diagnostics data collection</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="disable-clipboard"><span>Disable clipboard data collection <span class="badge adv red">Advanced</span></span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="nvidia"><span>Nvidia</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="office"><span>Microsoft Office</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="netcore-cli"><span>.NET Core CLI telemetry</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="powershell"><span>PowerShell telemetry</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="razer-scanner"><span>Razer Game Scanner Service</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="logitech-reg"><span>Logitech Gaming Registry Service</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-priv="ccleaner"><span>CCleaner data collection</span></label>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-privacy">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Block Telemetry Connections</h3></div>
+                <div class="stack v spaced">
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="spotify-tile"><span>Spotify Live Tile</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="crash-reports"><span>Windows Crash reports</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="wer"><span>Windows error reporting</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="telemetry-ux"><span>Telemetry and user experience</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="remote-sync"><span>Remote configuration sync</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="location"><span>Location data sharing</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="maps"><span>Maps data & updates</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="spotlight"><span>Spotlight ads and suggestions</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="edge-exp"><span>Edge experimentation</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="photos-sync"><span>Photos app sync</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="weather-tile"><span>Weather Live Tiles</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-telemetry="onenote-tiles"><span>OneNote Live Tiles</span></label>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-privacy">Apply</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SYSTEM -->
+          <section class="panel" id="panel-system" data-category="System">
+            <div class="grid-cards">
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Updates</h3></div>
+                <div class="seg center compact" role="tablist" aria-label="Update policy">
+                  <button class="seg-btn active" data-upd="security" role="tab" aria-selected="true">Only security</button>
+                  <button class="seg-btn" data-upd="normal" role="tab" aria-selected="false">Normal updates</button>
+                </div>
+                <div class="stack v mt8">
+                  <div class="path-row">
+                    <span class="k">Limit upload bandwidth:</span>
+                    <span id="upd-bandwidth-val" class="v">25%</span>
+                  </div>
+                  <input type="range" id="upd-bandwidth" min="0" max="100" value="25" class="range">
+                  <label class="tline"><input type="checkbox" class="toggle" data-upd="disable-driver-updates"><span>Disable automatic driver updates</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-upd="disable-auto-restart"><span>Disable auto restart for update</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-upd="disable-reserved-storage"><span>Disable reserved storage for updates</span></label>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-updates">Apply</button>
+                </div>
+              </div>
+
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Repair</h3></div>
+                <!-- DISM on one line, flex-fill -->
+                <div class="split one-line ordered dism-line">
+                  <button class="btn btn-ghost flex-1" data-action="dism-check">DISM /CheckHealth</button>
+                  <button class="btn btn-ghost flex-1" data-action="dism-scan">DISM /ScanHealth</button>
+                  <button class="btn btn-ghost flex-1" data-action="dism-restore">DISM /RestoreHealth</button>
+                </div>
+                <div class="stack v mt8">
+                  <button class="btn btn-ghost" data-action="run-sfc">SFC /scannow</button>
+                  <button class="btn btn-ghost" data-action="wsreset">WSReset</button>
+                  <div class="split one-line ordered">
+                    <button class="btn btn-ghost" data-action="run-chkdsk">CHKDSK</button>
+                    <span class="badge warn-yellow">Reboot required</span>
+                  </div>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-repair">Apply</button>
+                </div>
+              </div>
+
+              <!-- Power Tools -->
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Power Tools</h3></div>
+                <div class="stack v">
+                  <button class="btn btn-ghost" data-action="add-ultimate-power">Add & set Ultimate Power Plan</button>
+                  <button class="btn btn-ghost" data-action="rebuild-counters">Rebuild performance counters</button>
+                  <button class="btn btn-ghost" data-action="registry-tweaks-bundle">Registry Tweaks (bundle)</button>
+                  <button class="btn btn-ghost" data-action="set-ntp">Set NTP server: pool.ntp.org</button>
+                  <button class="btn btn-ghost" data-action="set-utc">Set Time to UTC <span class="badge tag-blue">Dual Boot</span></button>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-power-tools">Apply</button>
+                </div>
+              </div>
+
+              <!-- Startup & Shutdown -->
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Startup & Shutdown</h3></div>
+                <label class="tline">
+                  <input type="checkbox" class="toggle" data-sys="verbose-shutdown">
+                  <span>Verbose shutdown and log in</span>
+                </label>
+                <div class="actions left stick-bottom spread-inline gap-5">
+                  <button class="btn btn-primary" data-action="apply-startup-shutdown">Apply</button>
+                  <button class="btn btn-ghost" data-action="open-startup-taskmgr">Open Task Manager startups</button>
+                </div>
+              </div>
+
+              <!-- Security -->
+              <div class="card span-12 card-stick">
+                <div class="card-h"><h3>Security</h3></div>
+                <div class="stack v">
+                  <label class="tline"><input type="checkbox" class="toggle" data-sec="improve-network"><span>Improve Network security</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" data-sec="disable-camera-lock"><span>Disable Camera access in lock screen</span></label>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-security">Apply</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SETTINGS -->
+          <section class="panel" id="panel-settings" data-category="Settings">
+            <div class="grid-cards equal">
+              <!-- Profiles -->
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Profiles</h3></div>
+                <div class="profile-meta">
+                  <strong id="profile-name">Default Profile</strong>
+                </div>
+
+                <div class="pill-list" id="profile-pills">
+                  <button class="pill-row selected" data-profile="default">
+                    <span class="icon">🏠</span>
+                    <span class="label">Default</span>
+                  </button>
+                  <button class="pill-row" data-profile="gaming">
+                    <span class="icon">🎮</span>
+                    <span class="label">Gaming</span>
+                  </button>
+                  <button class="pill-row" data-profile="privacy">
+                    <span class="icon">🛡️</span>
+                    <span class="label">Privacy</span>
+                  </button>
+                  <button class="pill-row custom dimmed" data-profile="custom">
+                    <span class="icon">⚙️</span>
+                    <span class="label">Custom (import)</span>
+                  </button>
+                </div>
+
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-ghost small" data-action="export-profile">Export</button>
+                  <button class="btn btn-ghost small" data-action="import-profile">Import</button>
+                </div>
+              </div>
+
+              <!-- Safety -->
+              <div class="card span-6 card-stick">
+                <div class="card-h"><h3>Safety</h3></div>
+                <div class="stack v">
+                  <label class="tline"><input type="checkbox" class="toggle" id="dry-run"><span>Dry‑run mode (no changes, logs only)</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" id="full-backup"><span>Perform full backup before applying tweaks</span></label>
+                  <label class="tline"><input type="checkbox" class="toggle" id="confirm-risky" checked><span>Confirm before risky tweaks</span></label>
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-primary" data-action="apply-settings">Apply</button>
+                </div>
+              </div>
+
+              <!-- Discord -->
+              <div class="card span-3 profile-card">
+                <img class="profile-img" src="https://picsum.photos/seed/discord/240/240" alt="Discord">
+                <div class="profile-name">Discord</div>
+                <div class="profile-role">Join the community</div>
+                <div class="actions center">
+                  <button class="btn btn-ghost" data-action="open-discord">Open Discord</button>
+                </div>
+              </div>
+
+              <!-- GitHub -->
+              <div class="card span-3 profile-card">
+                <img class="profile-img" src="https://picsum.photos/seed/github/240/240" alt="GitHub">
+                <div class="profile-name">GitHub</div>
+                <div class="profile-role">Star and contribute</div>
+                <div class="actions center">
+                  <button class="btn btn-ghost" data-action="open-github">Open GitHub</button>
+                </div>
+              </div>
+
+              <!-- Changelogs -->
+              <div class="card span-6 card-stick">
+                <div class="card-h ch-head">
+                  <h3>Changelogs <span id="ch-version">v1.1.1</span> <span class="badge channel blue" id="ch-channel">Beta</span></h3>
+                </div>
+                <div class="terminal dark" id="ch-logs">[+ ] Added segmented update control
+[~ ] Improved Privacy "Limit telemetry" flow
+[- ] Removed deprecated demo one-liner
+                </div>
+                <div class="actions left stick-bottom pad-apply">
+                  <button class="btn btn-ghost" data-action="view-changelog">Open full changelog</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- RIGHT RAIL: Logs feed -->
+      <aside class="rail">
+        <header class="rail-h">
+          <h3>Logs</h3>
+          <div class="rail-search">
+            <div class="search-wrap">
+              <input id="rail-search" placeholder="Search logs…">
+              <button id="rail-search-clear" class="search-clear" aria-label="Clear logs search">×</button>
+            </div>
+          </div>
+          <div class="tags">
+            <button class="tag active" data-tag="all">All</button>
+            <button class="tag" data-tag="system">System</button>
+            <button class="tag" data-tag="ops">Ops</button>
+          </div>
+          <div class="top-actions">
+            <button class="btn btn-ghost" id="clear-logs">Clear</button>
+          </div>
+        </header>
+        <div class="thread" id="thread"></div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
