@@ -4,8 +4,11 @@ WinTils Installer + Local Web Server (robust)
 - Download with retries/progress, ZIP validation/extract
 - Webroot detection, mirroring to %APPDATA%\WinTils
 - Local server with:
+  - Default “/” serving nested index if needed
   - SPA fallback for client routes
+  - Asset fallback to the SPA directory for absolute/relative paths
   - Runtime <base href="/"> injection into all HTML served
+  - Strong Ctrl+C handling (visible message, clean exit 0)
 - Write-Host color logging; logs to %APPDATA%\WinTils\logs
 #>
 
@@ -482,4 +485,3 @@ try {
   try { if (Test-Path $TempDir) { Remove-Item $TempDir -Recurse -Force -ErrorAction SilentlyContinue } } catch {}
 }
 #endregion
-
