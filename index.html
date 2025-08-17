@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WinTils — Windows 11 QOL Tool</title>
+  <meta name="description" content="WinTils automates safe debloating, optimization, and personalization for Windows 11 with a fluent, modern UI."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Ambient edge glow -->
+  <div class="edge edge-left"></div>
+  <div class="edge edge-right"></div>
+
+  <!-- NAV -->
+  <header class="nav" role="banner">
+    <div class="container nav-bar">
+      <!-- Left cluster -->
+      <nav class="nav-left" aria-label="Primary">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#why">Why</a>
+        <a class="nav-link" href="#screens">Preview</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+      </nav>
+
+      <!-- Center brand using YOUR logo markup -->
+      <a class="brand brand-center" href="#top" aria-label="WinTils Home">
+        <span class="logo-grid" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span class="brand-name">WinTils</span>
+      </a>
+
+      <!-- Right utilities -->
+      <nav class="nav-right" aria-label="Secondary">
+        <a class="nav-link" href="https://github.com/KrexonTX/WinTils" target="_blank" rel="noopener">Source Code</a>
+        <a id="demo-link" class="btn btn-pill btn-pale" href="demo/index.html">Demo</a>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+      <a class="drawer-link" href="#features">Features</a>
+      <a class="drawer-link" href="#why">Why</a>
+      <a class="drawer-link" href="#screens">Preview</a>
+      <a class="drawer-link" href="#faq">FAQ</a>
+      <hr class="drawer-sep"/>
+      <a class="drawer-link" href="https://github.com/KrexonTX/WinTils" target="_blank" rel="noopener">Source Code</a>
+      <a id="demo-link-drawer" class="btn btn-pill btn-pale drawer-cta" href="demo/index.html">Demo</a>
+    </div>
+  </header>
+
+  <main id="main" role="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-stage" aria-hidden="true">
+        <canvas id="grain"></canvas>
+        <canvas id="waves"></canvas>
+        <div class="light-sweep"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <div class="mini-badges">
+          <span class="mini-chip">Windows 11 • Faster. Smarter.</span>
+          <span class="mini-chip ghost">WinTils v1.0</span>
+        </div>
+
+        <h1 class="headline">
+          <span class="line soft">Make Windows 11</span>
+          <span class="line bold">clean, fast, and yours.</span>
+        </h1>
+
+        <p class="lead">WinTils automates safe debloating, performance tuning, and personalization with reversible changes.</p>
+
+        <div class="cta-row">
+          <a class="btn btn-pill btn-ghost" href="#download">Quick Run</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="section dark">
+      <div class="container grid two">
+        <div>
+          <p class="eyebrow">Security-first</p>
+          <h2 class="h2">Simplify your security with our services</h2>
+          <p class="muted">Outcome-focused tuning with robust defaults. Remove bloat, apply safe policies, and keep essentials intact.</p>
+
+          <div class="stack">
+            <button class="pill" type="button"><span>Security tweaks</span><span class="arrow">›</span></button>
+            <button class="pill" type="button"><span>Knowledge transfer</span><span class="arrow">›</span></button>
+            <button class="pill" type="button"><span>Damage control</span><span class="arrow">›</span></button>
+          </div>
+        </div>
+
+        <div class="visual" aria-hidden="true">
+          <div class="tile-vis">
+            <div class="tile-core">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                <path d="M6 12h12M12 6v12" stroke="#0B1" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="tile-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section id="why" class="section">
+      <div class="container center">
+        <h3 class="h2">Faster. Smarter.</h3>
+        <p class="muted narrow">Use sane defaults, clear toggles, and reversible changes. Reduce friction, keep performance high, and refine the experience.</p>
+      </div>
+
+      <div class="container card">
+        <div class="card-visual" aria-hidden="true"></div>
+        <div class="card-body">
+          <h4>Optimized for security</h4>
+          <p class="muted">Safe debloating and optimization with checkpoints and transparent logs.</p>
+          <a href="#features" class="btn btn-pill btn-ghost small">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREVIEW -->
+    <section id="screens" class="section">
+      <div class="container">
+        <h3 class="h2">Preview</h3>
+        <div class="screens">
+          <div class="screen"></div>
+          <div class="screen"></div>
+          <div class="screen"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RUN COMMAND -->
+    <section id="download" class="section">
+      <div class="container callout">
+        <h3>Run WinTils via PowerShell</h3>
+
+        <div class="code-wrap">
+          <pre class="code" id="cmd">irm https://raw.githubusercontent.com/KrexonTX/WinTils/refs/heads/main/main.ps1 | iex</pre>
+          <button id="copy-cmd" class="btn btn-copy" aria-label="Copy command">Copy</button>
+        </div>
+
+        <p class="muted agree">
+          By running this command, you acknowledge you’ve read and agree to the
+          <a href="#terms" id="open-terms-inline">Terms &amp; Conditions</a> and
+          <a href="#privacy" id="open-privacy-inline">Privacy Policy</a>.
+        </p>
+
+        <div class="cta-row">
+          <a id="cta-demo-link" class="btn btn-pill btn-pale" href="demo/index.html">Demo</a>
+          <a class="btn btn-pill btn-ghost" href="https://github.com/KrexonTX/WinTils" target="_blank" rel="noopener">View repository</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container">
+        <h3 class="h2">FAQ</h3>
+
+        <details class="faq">
+          <summary>What is WinTils?</summary>
+          <p>WinTils is a Windows 11 quality-of-life toolkit that automates safe debloating, performance tuning, and personalization.</p>
+        </details>
+
+        <details class="faq">
+          <summary>How do I run it?</summary>
+          <p>Open PowerShell as Administrator and run the one‑liner above to fetch and launch the latest script.</p>
+        </details>
+
+        <details class="faq">
+          <summary>Troubleshooting: PowerShell blocked this script</summary>
+          <p>Allow scripts for this session only and retry:</p>
+          <pre class="code small">Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</pre>
+        </details>
+
+        <details class="faq">
+          <summary>Can I review the code first?</summary>
+          <p>Yes—open the raw script in your browser:</p>
+          <pre class="code small">https://raw.githubusercontent.com/KrexonTX/WinTils/refs/heads/main/main.ps1</pre>
+        </details>
+
+        <details class="faq">
+          <summary>How do I revert changes?</summary>
+          <p>Create a restore point before major changes. Many toggles are reversible; consult logs or re-run with restore options when provided.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container foot">
+      <div class="brand foot-brand">
+        <span class="logo-grid small" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span class="brand-name">WinTils</span>
+      </div>
+      <nav class="foot-links">
+        <a href="#terms" id="open-terms">Terms &amp; Conditions</a>
+        <a href="#privacy" id="open-privacy">Privacy Policy</a>
+      </nav>
+      <p class="muted">© 2025 WinTils. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- TERMS MODAL -->
+  <section id="terms-modal" class="modal" aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="terms-title">
+    <div class="modal-card">
+      <header class="modal-head">
+        <h4 id="terms-title">Terms &amp; Conditions</h4>
+        <button class="modal-close" data-close="terms-modal" aria-label="Close">×</button>
+      </header>
+      <div class="modal-body">
+        <p>Last updated: August 2025</p>
+        <p>These Terms govern your use of the WinTils script, website, and related materials (the “Service”). By using the Service, you agree to these Terms.</p>
+        <h5>License</h5>
+        <p>WinTils is provided for personal and internal business use. No ownership is transferred. You may not sell, sublicense, or repackage the script without permission.</p>
+        <h5>Acceptable Use</h5>
+        <p>You agree not to misuse the Service, reverse engineer obfuscated parts, disrupt systems, or violate applicable laws or third‑party rights.</p>
+        <h5>Assumptions of Risk</h5>
+        <p>System changes carry risk. Ensure you have backups and restore points. You are solely responsible for actions taken with the script.</p>
+        <h5>Disclaimer</h5>
+        <p>THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE” WITHOUT WARRANTIES OF ANY KIND.</p>
+        <h5>Limitation of Liability</h5>
+        <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE ARE NOT LIABLE FOR INDIRECT OR CONSEQUENTIAL DAMAGES.</p>
+        <h5>Changes</h5>
+        <p>We may update these Terms from time to time. Continued use constitutes acceptance of the revised Terms.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY MODAL -->
+  <section id="privacy-modal" class="modal" aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="privacy-title">
+    <div class="modal-card">
+      <header class="modal-head">
+        <h4 id="privacy-title">Privacy Policy</h4>
+        <button class="modal-close" data-close="privacy-modal" aria-label="Close">×</button>
+      </header>
+      <div class="modal-body">
+        <p>Last updated: August 2025</p>
+        <h5>Overview</h5>
+        <p>WinTils does not collect personal data by default. The website may process minimal technical logs for security and performance.</p>
+        <h5>Local Processing</h5>
+        <p>The PowerShell script runs locally and does not transmit your data to us.</p>
+        <h5>Third‑Party Links</h5>
+        <p>Links to external sites (e.g., GitHub) are governed by those sites’ policies.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
