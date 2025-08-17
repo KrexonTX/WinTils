@@ -18,7 +18,7 @@ $ErrorActionPreference = 'Stop'
 #region Configuration
 $AppName              = 'WinTils'
 $InstallRoot          = Join-Path $env:APPDATA $AppName
-$DownloadUrl          = 'https://github.com/KrexonTX/WinTils/raw/refs/heads/main/demo/demo.zip'
+$DownloadUrl          = 'https://github.com/KrexonTX/WinTils/raw/refs/heads/Alpha/demo/demo.zip'
 $ExpectedSHA256       = $null
 $TempDir              = Join-Path ([IO.Path]::GetTempPath()) "$AppName-Install"
 $ZipPath              = Join-Path $TempDir 'package.zip'
